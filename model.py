@@ -71,36 +71,27 @@ print("precision_score",precision)
 
 st.title("🚚 Delivery Delay Predictor")
 
-distance = st.number_input("Delivery Distance (km)", min_value=0.0)
-traffic = st.number_input("Traffic Congestion (1=Low, 5=High)", min_value=1, max_value=5)
-weather = st.number_input("Weather Condition (1=Bad, 5=Excellent)", min_value=1, max_value=5)
-slot = st.number_input("Delivery Slot (hour of day 0-23)", min_value=0, max_value=23)
-experience = st.number_input("Driver Experience (years)", min_value=0)
-stops = st.number_input("Number of Stops", min_value=0)
-vehicle_age = st.number_input("Vehicle Age (years)", min_value=0)
-road_score = st.number_input("Road Condition Score (1=Poor, 5=Excellent)", min_value=1, max_value=5)
-weight = st.number_input("Package Weight (kg)", min_value=0.0)
-fuel = st.number_input("Fuel Efficiency (km/l)", min_value=0.0)
-warehouse_time = st.number_input("Warehouse Processing Time (minutes)", min_value=0)
+distance = st.number_input("Delivery Distance")
+traffic = st.number_input("Traffic Congestion")
+weather = st.number_input("Weather Condition")
+slot = st.number_input("Delivery Slot")
+experience = st.number_input("Driver Experience")
+stops = st.number_input("Number of Stops")
+vehicle_age = st.number_input("Vehicle Age")
+road_score = st.number_input("Road Condition Score")
+weight = st.number_input("Package Weight")
+fuel = st.number_input("Fuel Efficiency")
+warehouse_time = st.number_input("Warehouse Processing Time")
 
 if st.button("Predict"):
-    input_data = pd.DataFrame([[distance, traffic, weather, slot, experience,
-                                stops, vehicle_age, road_score,
-                                weight, fuel, warehouse_time]],
-                              columns=['Distance','Traffic','Weather','Slot','Experience',
-                                       'Stops','Vehicle_Age','Road_Score',
-                                       'Weight','Fuel','Warehouse_Time'])
-    prediction = model.predict(input_data)[0]
-    probability = model.predict_proba(input_data)[0][1]
-
-    st.write(f"**Probability of Delay:** {probability:.2f}")
-    if prediction == 1:
-        st.error("⚠️ This delivery is likely to be delayed!")
-    else:
-        st.success("✅ Delivery is expected on time!")
+    prediction = model.predict([[distance,traffic,weather,slot,experience,
+                                 stops,vehicle_age,road_score,
+                                 weight,fuel,warehouse_time]])
+    st.write("Prediction:", prediction)
 
 
     
+
 
 
 
