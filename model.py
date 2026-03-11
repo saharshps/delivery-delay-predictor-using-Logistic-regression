@@ -6,6 +6,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
 from sklearn.metrics import f1_score
+from sklearn.metrics import auc,roc_curve
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import recall_score
 from sklearn.metrics import precision_score
@@ -47,6 +48,22 @@ plt.ylabel("Actual")
 plt.title("confusion matrix") 
 plt.show()
 
+y_pred_proba = model.predict_proba(X_test)[:, 1] 
+fpr,tpr,thresholds=roc_curve(y_test,y_pred_proba)
+roc_auc=auc(fpr,tpr)
+
+plt.figure(figsize=(8,6))
+plt.plot(fpr, tpr, color='blue', lw=2, label='ROC curve (AUC = %0.2f)' % roc_auc)
+plt.plot([0,1], [0,1], color='red', linestyle='--', label='Random Guess') 
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate (FPR)')
+plt.ylabel('True Positive Rate (Recall)')
+plt.title('Receiver Operating Characteristic (ROC) Curve')
+plt.legend(loc="lower right")
+plt.grid(True)
+plt.show()
+
 recall=recall_score(y_test,y_pred)
 print("recall score:",recall)
 
@@ -74,6 +91,7 @@ if st.button("Predict"):
                                  stops,vehicle_age,road_score,
                                  weight,fuel,warehouse_time]])
     st.write("Prediction:", prediction)
+
 
 
 
