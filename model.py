@@ -8,6 +8,7 @@ from sklearn.model_selection import cross_val_score
 from sklearn.metrics import f1_score
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import recall_score
+from sklearn.metrics import precision_score
 import streamlit as st 
 
 df=pd.read_csv(r"C:\Users\sahar\OneDrive\Desktop\delivery_delay.csv")
@@ -52,6 +53,9 @@ print("recall score:",recall)
 f1 = f1_score(y_test, y_pred)
 print("F1-Score:", f1)
 
+precision=precision_score(y_test,y_pred)
+print("precision_score",precision)
+
 st.title("Delivery delay predictor")
 distance = st.number_input("Delivery Distance")
 traffic = st.number_input("Traffic Congestion")
@@ -70,6 +74,7 @@ if st.button("Predict"):
                                  stops,vehicle_age,road_score,
                                  weight,fuel,warehouse_time]])
     st.write("Prediction:", prediction)
+
 
 
 
